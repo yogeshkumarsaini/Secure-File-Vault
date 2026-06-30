@@ -1,0 +1,25 @@
+Options -Indexes
+
+php_flag display_errors Off
+
+<Files ".env">
+    Order allow,deny
+    Deny from all
+</Files>
+
+<FilesMatch "\.(ini|log|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to uploaded encrypted files
+
+RewriteEngine On
+
+RewriteRule ^uploads/encrypted/(.*)$ - [F,L]
+
+# Prevent PHP execution inside uploads
+
+<Directory "uploads">
+    php_flag engine off
+</Directory>
