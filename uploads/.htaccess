@@ -1,0 +1,3 @@
+# Nobody should ever fetch files directly from /uploads/.
+# All access must go through download.php, which checks ownership and decrypts on the fly.
+Require all denied

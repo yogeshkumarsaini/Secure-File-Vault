@@ -1,0 +1,27 @@
+# Secure File Vault — root .htaccess
+
+# Disable directory listing everywhere in the app.
+Options -Indexes
+
+# Protect sensitive files from ever being served directly.
+<FilesMatch "\.(sql|log|md)$">
+    Require all denied
+</FilesMatch>
+
+<Files "database.sql">
+    Require all denied
+</Files>
+
+# Basic security headers.
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "DENY"
+    Header set Referrer-Policy "same-origin"
+</IfModule>
+
+# PHP hardening (if mod_php is used; ignored on PHP-FPM setups — configure php.ini instead).
+<IfModule mod_php.c>
+    php_flag display_errors off
+    php_value upload_max_filesize 25M
+    php_value post_max_size 25M
+</IfModule>
